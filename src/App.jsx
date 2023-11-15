@@ -8,7 +8,7 @@ import Contact from "./Components/Contact";
 import Login from "./Components/Login";
 import Dashboard from "./Components/Dashboard";
 import Logout from "./Components/Logout";
-import Bill from "./Components/Bill";
+import Bill from "./Containers/Bill";
 import ListHotel from "./Components/ListHotel";
 import DetailHotel from "./Components/DetailHotel";
 import BookingConfirmation from "./Components/BookingConfirmation";
