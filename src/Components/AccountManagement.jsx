@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import Bill from './Bill';
-import Account from './Account';
-import PassChange from './PassChange';
+import Bill from '../Containers/Bill';
+import Account from '../Containers/Account';
+import PassChange from '../Containers/PassChange';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
