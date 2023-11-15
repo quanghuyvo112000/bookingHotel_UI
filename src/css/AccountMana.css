@@ -1,0 +1,29 @@
+.navigation-menu{
+    border-radius: 0.375rem;
+    border: 1px solid #d2d2d2;
+    padding: 15px;
+    width: 150px;
+    width: 300px;
+    float: left;
+    position: fixed;
+}
+
+.btn_navigation-menu{
+    margin-bottom: 25px;
+    width: 100%;
+    text-align: left;
+}
+
+.btn_navigation-menu:hover{
+    background-color: #275ebe63;
+    color: #ffff !important;
+    text-align: left;
+    width: 100%;
+}
+
+.btn_navigation-menu.active {
+    background-color: #275fbe;
+    color: #ffff !important;
+    width: 100%;
+    text-align: left;
+  }
