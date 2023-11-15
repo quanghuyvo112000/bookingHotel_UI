@@ -1,0 +1,61 @@
+.container-booking{
+    border: 1px solid #dee2e6;
+    border-radius: 0.375rem;
+    padding: 0 15px 25px 15px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+
+.form-group-info {
+    display: flex;
+    margin: 20px 0;
+    justify-content: space-between;
+  }
+
+.input-group-booking {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+    text-align: center;
+    width: 21%;
+    margin-left: auto;
+}
+
+.input-group{
+    display: inline-flex;
+    justify-content: flex-end;
+}
+
+.btn_minus{
+    position: relative !important;
+    margin-right: 5px !important;
+}
+
+.btn_plus{
+    position: relative !important;
+    margin-left: 2px !important;
+}
+
+.form_info{
+    border: 1px solid #dee2e6 !important;
+    padding: 5px 11px !important;
+    border-radius: 0.375rem !important;
+}
+
+.form_info:focus{
+    color: #212529;
+    background-color: #fff;
+    border-color: #86b7fe;
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgba(13,110,253,.25);
+}
+
+.option_group{
+    padding: 5px 25px;
+    border: 1px solid #dee2e6 ;
+    border-radius: 0.375rem;
+    margin: 2px 0;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
