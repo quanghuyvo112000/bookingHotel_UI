@@ -15,20 +15,30 @@ const Account = () => {
   });
 
   const userId = sessionStorage.getItem('idUser');
+  const token = sessionStorage.getItem('jwtToken');
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get(`http://localhost:4000/users/${userId}`);
+        const response = await axios.request({
+          headers: {
+            Authorization: token
+          },
+          method: "GET",
+          url: `https://localhost:7211/Account/getInfor?id=${userId}`
+        }).then(response => {
+          console.log(response.data);
+        });
         setUserData(response.data);
         setUpdatedUserData(response.data);
       } catch (error) {
-        console.error('Error fetching user data:', error);
+        console.error('Lỗi khi lấy dữ liệu người dùng:', error);
       }
     };
 
     fetchUserData();
-  }, [userId]);
+  }, [userId, token]);
+
 
   const handleEditClick = () => {
     setEditMode(true);
@@ -42,7 +52,13 @@ const Account = () => {
   const handleUpdateClick = async () => {
     try {
       const { age, phoneNumber, ...dataToUpdate } = updatedUserData;
-      await axios.put(`http://localhost:4000/users/${userId}`, { age, phoneNumber, ...dataToUpdate });
+      await axios.put(`https://localhost:7211/Account/update`, dataToUpdate, {
+        headers: {
+          'Access-Control-Allow-Origin': 'http://localhost:3000',
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
       setUserData(updatedUserData);
       setEditMode(false);
     } catch (error) {
@@ -60,7 +76,7 @@ const Account = () => {
       {userData ? (
         <div className="card">
           <div className="card-body">
-          <h4 style={{fontSize: 18}}>Thông tin tài khoản</h4>
+            <h4 style={{ fontSize: 18 }}>Thông tin tài khoản</h4>
             <p>Fullname: {userData.fullname}</p>
             <p>Email: {userData.email}</p>
             <p>Age: {userData.age}</p>
@@ -68,7 +84,7 @@ const Account = () => {
 
             {editMode ? (
               <div>
-               <h4 style={{fontSize: 18}}>Chỉnh sửa thông tin</h4>
+                <h4 style={{ fontSize: 18 }}>Chỉnh sửa thông tin</h4>
                 <div className="mb-3 row">
                   <label className="form-label col-6">
                     Họ và tên:

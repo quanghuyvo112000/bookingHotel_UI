@@ -1,0 +1,10 @@
+.forgot-password-link {
+    text-decoration: underline; /* Tạo hiệu ứng gạch dưới */
+    cursor: pointer; /* Đổi hình dạng con trỏ khi di chuột */
+    color: blue; /* Màu chữ của liên kết */
+  }
+  
+  /* Hover effect - thêm hiệu ứng màu chữ khi di chuột qua liên kết */
+  .forgot-password-link:hover {
+    color: darkblue; /* Màu chữ khi di chuột qua */
+  }

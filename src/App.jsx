@@ -1,6 +1,7 @@
 // import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 
+import Footer from "./Footer";
 import Menu from "./Components/Menu";
 import Home from "./Components/Home";
 import About from "./Components/About";
@@ -13,6 +14,8 @@ import ListHotel from "./Components/ListHotel";
 import DetailHotel from "./Components/DetailHotel";
 import BookingConfirmation from "./Components/BookingConfirmation";
 import AccountManagement from "./Components/AccountManagement";
+import ForgotPassword from "./Components/forgotPassword";
+import ResetPassword from "./Components/ResetPassword";
 function App() {
 
   return (
@@ -31,9 +34,11 @@ function App() {
           <Route path="/xac-nhan-dat-phong" element={<BookingConfirmation/>}/>
           <Route path="/hoa-don-dat-phong" element={<Bill/>}/>
           <Route path="/quan-ly-tai-khoan" element={<AccountManagement/>}/>
-
+          <Route path="/forgot-password" element={<ForgotPassword/>}/>
+          <Route path="/ResetPassword" element={<ResetPassword />} />
         </Routes>
       </div>
+      < Footer />
     </div>
   );
 }

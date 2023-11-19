@@ -6,12 +6,9 @@ const Logout = () => {
 
   useEffect(() => {
     // Xóa token và role khỏi localStorage
-    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('jwtToken');
     sessionStorage.removeItem('role');
-    sessionStorage.removeItem('fullname');
-    sessionStorage.removeItem('id');
-    sessionStorage.removeItem('checkInDate');
-    sessionStorage.removeItem('numNights');
+    sessionStorage.removeItem("idUser")
 
     // Chuyển hướng về trang đăng nhập hoặc trang chủ
     navigate('/dang-nhap');

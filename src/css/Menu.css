@@ -64,3 +64,7 @@
 .submenu-item{
     padding: 10px 0;
 }
+
+#navbarNav{
+    justify-content: space-between;
+}

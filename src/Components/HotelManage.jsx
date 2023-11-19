@@ -3,6 +3,7 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import NewHotel from '../Containers/NewHotel';
 import NewRoom from '../Containers/NewRoom';
 import '../css/HotelManage.css'; // Import CSS styles for react-tabs
+import ListHotel from './ListHotel';
 
 const HotelManage = () => {
   // State để theo dõi tab đang được chọn
@@ -24,7 +25,8 @@ const HotelManage = () => {
         </TabList>
 
         <TabPanel>
-        <h4 style={{fontSize: 18, marginTop: 15}}>Danh sách khách sạn</h4>
+          <h4 style={{fontSize: 18, marginTop: 15}}>Danh sách khách sạn</h4>
+          <ListHotel />
         </TabPanel>
 
         <TabPanel>

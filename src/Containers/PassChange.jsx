@@ -4,6 +4,7 @@ import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const PassChange = () => {
+  const [username, setUsername] = useState('');  // Thêm state cho username
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
@@ -12,13 +13,11 @@ const PassChange = () => {
   // Mảng trạng thái hiện/ẩn mật khẩu cho từng trường
   const [showPasswordFields, setShowPasswordFields] = useState([false, false, false]);
 
-  const idUser = sessionStorage.getItem('idUser');
-
-    // Hàm kiểm tra mật khẩu
-    const isPasswordValid = (password) => {
-      // Kiểm tra mật khẩu có ít nhất 1 chữ số và 1 ký tự
-      return /^(?=.*[A-Za-z])(?=.*\d).+$/.test(password);
-    };
+  // Hàm kiểm tra mật khẩu
+  const isPasswordValid = (password) => {
+    // Kiểm tra mật khẩu có ít nhất 1 chữ số và 1 ký tự
+    return /^(?=.*[A-Za-z])(?=.*\d).+$/.test(password);
+  };
 
   // Hàm xử lý sự kiện khi form được submit
   const handleSubmit = async (e) => {
@@ -29,22 +28,23 @@ const PassChange = () => {
       if (newPassword === confirmNewPassword) {
         try {
           // Gọi API để thay đổi mật khẩu
-          const response = await axios.put(`http://localhost:4000/changePassword/${idUser}`, {
-            currentPassword,
-            newPassword,
+          const response = await axios.put(`https://localhost:7211/Account/changePassword`, {
+            username: username,  // Thêm thông tin tài khoản cần thay đổi mật khẩu
+            password: newPassword,  // Thay đổi thành mật khẩu mới
+            oldPassword: currentPassword,  // Mật khẩu hiện tại
           });
-  
+
           // Hiển thị thông báo từ phản hồi của máy chủ
           setMessage(response.data.message);
         } catch (error) {
-          console.error('Error changing password:', error.response ? error.response.data.message : error.message);
+          console.error('Lỗi khi thay đổi mật khẩu:', error.response ? error.response.data.message : error.message);
           setMessage('Mật khẩu hiện tại không trùng khớp.');
         }
       } else {
         // Hiển thị thông báo lỗi nếu mật khẩu mới và xác nhận mật khẩu mới không khớp
-        setMessage('Mật khẩu mới và xác nhận mật khẩu không khớp.');
+        setMessage('Mật khẩu mới và xác nhận mật khẩu mới không khớp.');
       }
-    }else{
+    } else {
       setMessage('Mật khẩu mới phải có ít nhất 1 chữ số và 1 ký tự.');
     }
   };
@@ -64,6 +64,19 @@ const PassChange = () => {
     }}>
       <h4 style={{ fontSize: 18 }}>Thay Đổi Mật Khẩu</h4>
       <form onSubmit={handleSubmit}>
+        <div className="mb-3" style={{ position: 'relative' }}>
+          <label htmlFor="username" className="form-label">
+            Tên đăng nhập:
+          </label>
+          <input
+            type="text"
+            className="form-control"
+            id="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
+        </div>
         {['currentPassword', 'newPassword', 'confirmNewPassword'].map((fieldName, index) => (
           <div key={fieldName} className="mb-3" style={{ position: 'relative' }}>
             <label htmlFor={fieldName} className="form-label">

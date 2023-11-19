@@ -1,0 +1,25 @@
+.heading {
+    font-size: 18px;
+    margin-top: 25px;
+  }
+  
+  .image {
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  }
+  
+  .position-relative {
+    position: relative;
+  }
+  
+  .image-text {
+    position: absolute;
+    bottom: 5%; /* Adjust as needed */
+    left: 50%; /* Adjust as needed */
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+  }
