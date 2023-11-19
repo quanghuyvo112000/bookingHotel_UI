@@ -60,7 +60,9 @@ const PassChange = () => {
     <div style={{
       borderRadius: '0.375rem',
       border: '1px solid #d2d2d2',
-      padding: '15px'
+      padding: '15px',
+      marginBottom: '50px',
+      width: '100%'
     }}>
       <h4 style={{ fontSize: 18 }}>Thay Đổi Mật Khẩu</h4>
       <form onSubmit={handleSubmit}>

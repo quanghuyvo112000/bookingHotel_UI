@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import '../css/BookingConfirmation.css';
 
 const FormBookingConfir = ({ onSubmit, onConfirmation }) => {
   const fullName = sessionStorage.getItem('fullname');
@@ -20,7 +21,7 @@ const FormBookingConfir = ({ onSubmit, onConfirmation }) => {
   };
 
   return (
-    <div style={{ marginBottom: 15, marginLeft: 22, width: '95.5%', padding: '25px', borderRadius: '0.375rem', border: '1px solid #dee2e6', boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px' }}>
+    <div className='form-infor-customer' style={{ marginBottom: 15, marginLeft: 22, width: '95.5%', padding: '25px', borderRadius: '0.375rem', border: '1px solid #dee2e6', boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px' }}>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <h4 style={{fontSize: 16}}>Thông tin khách hàng</h4>

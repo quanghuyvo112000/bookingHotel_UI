@@ -58,7 +58,7 @@ const Bill = () => {
 
 
   return (
-    <div className="container">
+    <div style={{marginBottom: 50}} className="container">
       <br />
       {bills.length > 0 ? (
         <div className="row">
@@ -67,7 +67,7 @@ const Bill = () => {
               <div className="card">
                 <div className="card-body">
                   <h4 style={{ fontSize: 16 }}> <FontAwesomeIcon icon={faHotel} style={{ color: "#275fbe" }} /> {bill.hotelInfo.nameHotel} </h4>
-                  <p> <FontAwesomeIcon icon={faLocationDot} style={{ color: "#275fbe" }} /> Khu vực: {bill.hotelInfo.location}, <FontAwesomeIcon icon={faMapLocationDot} style={{ color: "#275fbe" }} /> Địa chỉ: {bill.hotelInfo.address}</p>
+                  <p> <FontAwesomeIcon icon={faLocationDot} style={{ color: "#275fbe" }} /> Khu vực: {bill.hotelInfo.location}, <br /> <FontAwesomeIcon icon={faMapLocationDot} style={{ color: "#275fbe" }} /> Địa chỉ: {bill.hotelInfo.address}</p>
                   <hr />
                   <p style={{ fontSize: 14, fontWeight: 500 }}>Thông tin phòng: {bill.roomInfo.nameRoom}</p>
                   <p> <FontAwesomeIcon icon={faBuildingCircleCheck} style={{ color: "#275fbe" }} /> Ngày Check-In: {formatCheckInDate(bill.checkInDate)}</p>

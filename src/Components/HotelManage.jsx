@@ -10,7 +10,7 @@ const HotelManage = () => {
   const [selectedTab, setSelectedTab] = useState(0);
 
   return (
-    <div>
+    <div style={{marginBottom: 50}}>
       <Tabs selectedIndex={selectedTab} onSelect={(index) => setSelectedTab(index)}>
         <TabList className="custom-tab-list">
           <Tab className={`custom-tab ${selectedTab === 0 ? 'active-tab' : ''}`}>
