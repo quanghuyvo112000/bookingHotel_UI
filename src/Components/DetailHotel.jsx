@@ -6,6 +6,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useNavigate } from 'react-router-dom';
 import ImageCarousel from '../Containers/ImageCarousel';
 
+import '../css/DetailHotel.css';
+
+
 const DetailHotel = () => {
   const navigate = useNavigate();
   // Lấy thông tin từ URL
@@ -161,29 +164,29 @@ const DetailHotel = () => {
 
   // Hiển thị thông tin chi tiết của khách sạn
   return (
-    <div>
+    <div style={{marginBottom: 100}}>
         <div className="container">
-            <div className='col-sm-12 col-md-12'>
+            <div className='col-sm-12 col-md-12 col-lg-12'>
                 <h2 style={{fontSize: "32px"}}>{hotelDetail.nameHotel}</h2>
                 <span style={{fontSize: "12px", marginBottom: 5, padding:"5px", backgroundColor: 'rgba(236,248,255,1.00)', borderRadius: 14, color: 'rgba(2,100,200,1.00)'}}>Mô hình {hotelDetail.type}</span>
                 <p style={{marginTop: '15px'}}><FontAwesomeIcon icon={faLocationDot} style={{color: "#1f59bd",}} /> {hotelDetail.address} -
                     <a  href="https://maps.app.goo.gl/iusd2RHpGBBa5kV29" target="_blank" rel="noreferrer"> Xem bản đồ</a>
                 </p>
             </div>
-            <div className='col-sm-12 col-md-12'>
+            <div className='col-sm-12 col-md-12 col-lg-12'>
                 <ImageCarousel />
             </div>
-            <div className="row" style={{margin: "15px 0"}}>
-                <div className="col-sm-12 col-md-4" style={{marginBottom: "15px", marginRight: "15px", border: "1px solid #dee2e6", borderRadius: "0.375rem", padding: "15px"}}>
+            <div className="row hotel-area" style={{margin: "15px 0"}}>
+                <div className="col-sm-12 col-md-4 utilities-hotel" style={{marginBottom: "15px", marginRight: "15px", border: "1px solid #dee2e6", borderRadius: "0.375rem", padding: "15px"}}>
                     <h4 style={{padding: '0 50px', fontSize: 16, fontWeight: 700}}>Tiện ích chính</h4>
                     {renderMainNtilitys(hotelDetail.main_utility)}
                 </div>
-                <div className="col-sm-12 col-md-7" style={{width: "65.333333%", marginBottom: "15px", border: "1px solid #dee2e6", borderRadius: "0.375rem", padding: "15px"}}>
+                <div className="col-sm-12 col-md-7 area-hotel" style={{ marginBottom: "15px", border: "1px solid #dee2e6", borderRadius: "0.375rem", padding: "15px"}}>
                     <h4 style={{padding: '0 50px', fontSize: 16, fontWeight: 700}}>Trong khu vực</h4>
                     {renderArea(hotelDetail.area)}
                 </div>
             </div>
-            <div className="col-sm-12 col-md-12">
+            <div className="col-sm-12 col-md-12 col-lg-12">
                 <div className='col-sm-12 col-md-12' style={{border: "1px solid #dee2e6", borderRadius: "0.375rem", padding: "15px"}}>
                     <div>
                         {hotelDetail.rooms && hotelDetail.rooms.length > 0 && (
@@ -193,7 +196,7 @@ const DetailHotel = () => {
                                 <div key={index} style={{border: "1px solid #dee2e6", borderRadius: "0.375rem", padding: "15px", margin: "0 5px 15px 5px "}}>
                                     <div className="row">
 
-                                        <div className="col-md-5" style={{height: 300, marginLeft: 45, marginRight: 5, borderRadius: "0.375rem", border: "1px solid #dee2e6", boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px'}}>
+                                        <div className="col-12 col-sm-12 col-md-5 col-lg-5 hotel-room" style={{height: 300, marginLeft: 45, marginRight: 5, borderRadius: "0.375rem", border: "1px solid #dee2e6", boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px'}}>
                                             <h4 style={{marginTop: 10, fontSize: 16,}}>{room.nameRoom}</h4>
                                             <img style={{width: "100%", paddingTop: 10, height: "50%", borderRadius: "0.375rem"}} src="https://ik.imagekit.io/tvlk/generic-asset/Ixf4aptF5N2Qdfmh4fGGYhTN274kJXuNMkUAzpL5HuD9jzSxIGG5kZNhhHY-p7nw/hotel/asset/67782898-e13ce86c4806d306fe1633a78e9803cf.jpeg?_src=imagekit&tr=c-at_max,h-360,q-40,w-550" alt="" />
                                             <div style={{marginTop: 5}}>
@@ -202,13 +205,13 @@ const DetailHotel = () => {
                                             </div>
                                         </div>
 
-                                        <div className="col-md-4" style={{height: 300, marginRight: 5, padding: "20px 40px", borderRadius: "0.375rem", border: "1px solid #dee2e6", boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px'}}>
+                                        <div className="col-12 col-sm-12 col-md-5 col-lg-4 hotel-room" id="infor-hotel-room" style={{height: 300, marginRight: 5, padding: "20px 40px", borderRadius: "0.375rem", border: "1px solid #dee2e6", boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px'}}>
                                             <p style={{fontSize: 16, fontWeight: 700}}>{room.nameRoom}</p>
                                             <p style={{fontSize: 14, fontWeight: 500}}><span style={{marginRight: "20px"}}><FontAwesomeIcon icon={faBed} style={{color: "#225fc9",}} /> {room.bed}</span> <span><FontAwesomeIcon icon={faPerson} style={{color: "#225fc9",}} /> {room.quantity}</span></p>
                                             <hr />
                                             <p style={{fontSize: 14, fontWeight: 500}}>{renderServices(room.serviceRoom)}</p>
                                         </div>
-                                        <div className="col-md-2"  style={{height: 300, padding: "20px 40px", borderRadius: "0.375rem", border: "1px solid #dee2e6", boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px'}}>
+                                        <div className=" col-12 col-sm-12 col-md-12 col-lg-2 hotel-room" id="price-hotel-room"  style={{height: 300, padding: "20px 40px", borderRadius: "0.375rem", border: "1px solid #dee2e6", boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px'}}>
                                             {renderPrice(room)}
                                             <br />
                                             <button className="btn btn-primary" onClick={() => handleBooking(room.idRom)}>

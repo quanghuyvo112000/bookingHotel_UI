@@ -72,7 +72,7 @@ const Account = () => {
   };
 
   return (
-    <div className="container mt-5">
+    <div style={{marginBottom: 50}} className="container mt-5">
       {userData ? (
         <div className="card">
           <div className="card-body">

@@ -10,7 +10,7 @@ const Infor = () => {
   return (
     <div>
         <hr style={{marginTop: 25}}/>
-        <h4 style={{textAlign: 'center', fontSize: 18}} className="heading">Tại sao nên đặt chỗ với Traveloka?</h4>
+        <h4 style={{textAlign: 'center', fontSize: 18}} className="heading">Tại sao nên đặt chỗ ở chúng tôi?</h4>
         <div className="row">
             <div className="col-md-3">
                 <img style={{width: '100%', height: '50%'}} className="image" src={image1} alt="Slide 1" />

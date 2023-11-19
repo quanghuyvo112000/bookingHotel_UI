@@ -4,6 +4,7 @@ import { faPerson, faRuler, faCircleCheck, faBed, faPiggyBank, faMugSaucer, faWi
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import FormBookingConfir from '../Containers/FormBookingConfir';
 import { useNavigate } from 'react-router-dom';
+import '../css/BookingConfirmation.css';
 
 const BookingConfirmation = () => {
   const navigate = useNavigate();
@@ -217,13 +218,13 @@ const BookingConfirmation = () => {
   };
 
   return (
-    <div>
+    <div style={{marginBottom: 100}}>
       <h4 style={{ fontSize: 16, fontWeight: 500 }}>Đặt phòng khách sạn {sessionStorage.getItem('hotelName')}</h4>
       {bookingData ? (
         <div>
           <div className="row">
             <div
-              className="col-md-5"
+              className="col-12 col-sm-12 col-md-12 col-lg-4" id="confir_img"
               style={{
                 height: '300px',
                 marginLeft: 45,
@@ -248,7 +249,7 @@ const BookingConfirmation = () => {
             </div>
 
             <div
-              className="col-md-3"
+              className="col-12 col-sm-12 col-md-12 col-lg-4" id="confir_infor"
               style={{
                 height: '300px',
                 marginRight: 5,
@@ -272,7 +273,7 @@ const BookingConfirmation = () => {
             </div>
 
             <div
-                  className="col-md-3"
+                  className="col-12 col-sm-12 col-md-12 col-lg-3" id="confir_price"
                   style={{
                     height: 300,
                     marginBottom: 15,
@@ -288,9 +289,9 @@ const BookingConfirmation = () => {
                   <div>
                     <p style={{ margin: '10px 0', fontWeight: 500 }}>Số lượng phòng:</p>
                     <div className="input-group mb-3" style={{ width: 'auto', margin: '5px 0' }}>
-                      <button style={{left: 60, width: '16%'}} className="btn btn-outline-secondary" type="button" onClick={() => handleNumRoomsChange(numRooms - 1)}>-</button>
-                      <input  style={{width: '20%', margin: '0 102px'}} type="text" className="form-control" value={numRooms} readOnly />
-                      <button  style={{right: 59, width: '16%'}} className="btn btn-outline-secondary" type="button" onClick={() => handleNumRoomsChange(numRooms + 1)}>+</button>
+                      <button style={{left: 60, width: '16%'}} className="btn btn-outline-secondary btn-confir-plus" type="button" onClick={() => handleNumRoomsChange(numRooms - 1)}>-</button>
+                      <input  style={{width: '20%', margin: '0 102px'}} type="text" className="form-control input-count-room" value={numRooms} readOnly />
+                      <button  style={{right: 59, width: '16%'}} className="btn btn-outline-secondary btn-confir-minus" type="button" onClick={() => handleNumRoomsChange(numRooms + 1)}>+</button>
                     </div>
                   </div>
                 </div>
@@ -299,13 +300,13 @@ const BookingConfirmation = () => {
           <div>
             <div className="container" style={{ marginTop: 15 }}>
               <div className="row">
-                <div className="col-md-12">
+                <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 form-infor-customer">
                   <FormBookingConfir onSubmit={handleFormSubmit} onConfirmation={setIsConfirmed}/>
                 </div>
               </div>
               {isConfirmed && (
                 <div
-                  className="col-md-12"
+                  className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 form-infor-customer"
                   style={{
                     marginBottom: 15,
                     padding: '10px 40px',

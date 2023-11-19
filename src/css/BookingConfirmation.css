@@ -1,0 +1,207 @@
+@media only screen and (max-width: 600px) {
+
+    #confir_img{
+        height: 535px !important;
+        margin-left: 0 !important;
+        margin-bottom: 5px !important;
+    }
+
+    #confir_infor{
+        height: 370px !important;
+        text-align: center;
+    }
+
+    #confir_price{
+        margin-top: 5px;
+        height: 250px !important;
+        text-align: center;
+    }
+
+    .btn-confir-plus{
+        left: 130px !important;
+        width: 10% !important;
+    }
+
+    .btn-confir-minus{
+        width: 10% !important;
+        margin: 0px !important;
+        left: -126px !important;
+    }
+
+    .input-count-room{
+        left: 2px !important;
+        width: 14% !important;
+        margin: 0 132px !important;
+    }
+
+    .form-infor-customer{
+        margin-left: 0 !important;
+        width: 100% !important;
+    }
+}
+
+@media only screen and (min-width: 600px) and (max-width: 770px){
+    
+    #confir_img{
+        height: 535px !important;
+        margin-left: 0 !important;
+        margin-bottom: 5px !important;
+    }
+
+    #confir_infor{
+        height: 370px !important;
+        text-align: center;
+    }
+
+    #confir_price{
+        margin-top: 5px;
+        height: 250px !important;
+        text-align: center;
+    }
+
+    .btn-confir-plus{
+        left: 148px !important;
+        width: 10% !important;
+    }
+
+    .btn-confir-minus{
+        width: 10% !important;
+        margin: 0px !important;
+        left: -144px !important;
+    }
+
+    .input-count-room{
+        left: 2px !important;
+        width: 14% !important;
+        margin: 0 151px !important;
+    }
+
+    .form-infor-customer{
+        margin-left: 0 !important;
+        width: 100% !important;
+    }
+}
+
+@media only screen and (min-width: 770px) and (max-width: 990px){
+    
+    #confir_img{
+        height: 350px !important;
+        margin-left: 0 !important;
+        margin-bottom: 5px !important;
+    }
+
+    #confir_infor{
+        height: 270px !important;
+        text-align: center;
+    }
+
+    #confir_price{
+        margin-top: 5px;
+        height: 250px !important;
+        text-align: center;
+    }
+
+    .btn-confir-plus{
+        left: 228px !important;
+        width: 7% !important;
+    }
+
+    .btn-confir-minus{
+        width: 7% !important;
+        margin: 0px !important;
+        left: -224px !important;
+    }
+
+    .input-count-room{
+        left: 2px !important;
+        width: 14% !important;
+        margin: 0 229px !important;
+    }
+
+    .form-infor-customer{
+        margin-left: 0 !important;
+        width: 100% !important;
+    }
+}
+
+@media only screen and (min-width: 990px) and (max-width: 1200px){
+    
+    #confir_img{
+        height: 350px !important;
+        margin-left: 0 !important;
+        margin-bottom: 5px !important;
+    }
+
+    #confir_infor{
+        height: 350px !important;
+        text-align: center;
+    }
+
+    #confir_price{
+        height: 350px !important;
+        text-align: center;
+    }
+
+    .btn-confir-plus{
+        left: 12px !important;
+        width: 27% !important;
+    }
+
+    .btn-confir-minus{
+        width: 27% !important;
+        margin: 0px !important;
+        left: -7px !important;
+    }
+
+    .input-count-room{
+        left: 2px !important;
+        width: 14% !important;
+        margin: 0 14px !important;
+    }
+
+    .form-infor-customer{
+        margin-left: 0 !important;
+        width: 100% !important;
+    }
+}
+
+@media only screen and (min-width: 1200px){
+    
+    #confir_img{
+        height: 350px !important;
+        margin-left: 0 !important;
+        margin-bottom: 5px !important;
+    }
+
+    #confir_infor{
+        height: 350px !important;
+        text-align: center;
+    }
+
+    #confir_price{
+        height: 350px !important;
+        text-align: center;
+    }
+
+    .btn-confir-plus{
+        left: 32px !important;
+        width: 21% !important;
+    }
+
+    .btn-confir-minus{
+        width: 21% !important;
+        margin: 0px !important;
+        left: -28px !important;
+    }
+
+    .input-count-room{
+        left: 2px !important;
+        width: 14% !important;
+        margin: 0 35px !important;
+    }
+
+    .form-infor-customer{
+        margin-left: 0 !important;
+        width: 100% !important;
+    }
+}

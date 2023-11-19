@@ -66,7 +66,7 @@ const Bill = ({ bill }) => {
   };
 
   return (
-    <div className="col-md-6 mb-4">
+    <div style={{marginBottom: 50}} className="col-md-6 mb-4">
       <div className="card">
         <div className="card-body">
           <h4 style={{ fontSize: 16 }}> <FontAwesomeIcon icon={faHotel} style={{ color: "#275fbe" }} /> {bill.hotelInfo.nameHotel} </h4>
