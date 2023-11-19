@@ -26,4 +26,40 @@
     padding: 0 15px;
     font-weight: 500;
   }
+
+  .custom-tab-list {
+    display: flex;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .custom-tab {
+    padding: 10px;
+    margin: 0 5px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .active-tab {
+    background-color: #007bff;
+    color: #fff;
+    border: 1px solid #007bff;
+  }
+  
+  /* Chọn Tab được chọn */
+.react-tabs__tab--selected {
+  background-color: #007bff; /* Màu nền của Tab được chọn */
+  color: #fff; /* Màu chữ của Tab được chọn */
+}
+
+/* Phần biệt (highlight) cho Tab active */
+.custom-tab.active-tab {
+  background-color: #f0f0f0; /* Màu nền của Tab active */
+  border-bottom: 2px solid #007bff; /* Đường viền phía dưới của Tab active */
+  color: #007bff; /* Màu chữ của Tab active */
+}
+
+
   

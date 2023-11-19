@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { faEye, faEyeSlash} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
+import "../css/Login.css"
 
 function Login() {
   const [activeTab, setActiveTab] = useState('login');
@@ -26,6 +26,12 @@ function Login() {
     agreeToTerms: false,
   });
 
+  // Hàm xử lý sự kiện khi nhấp vào liên kết "Nếu bạn quên mật khẩu"
+  const handleForgotPasswordClick = () => {
+    navigate('/forgot-password');
+  };
+
+  // Hàm xử lý thay đổi dữ liệu khi người dùng nhập
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
 
@@ -42,6 +48,7 @@ function Login() {
     }
   };
 
+  // Hàm chuyển đổi giữa tab "Đăng nhập" và "Đăng ký"
   const handleTabChange = (tab) => {
     setActiveTab(tab);
     setShowLoginPassword(false);
@@ -56,31 +63,11 @@ function Login() {
     }
   };
 
+  // xác thực đăng nhập
   const handleLoginSuccess = async (token, role) => {
-    sessionStorage.setItem('token', token);
     sessionStorage.setItem('role', role);
-
-    try {
-      const response = await axios.get('http://localhost:4000/users', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (response.data) {
-        const user = response.data.find(u => u.username === loginFormData.username);
-
-        if (user) {
-          sessionStorage.setItem('fullname', user.fullname);
-          sessionStorage.setItem('idUser', user.id);
-        }
-      } else {
-        console.log('Không thể lấy thông tin người dùng.');
-      }
-    } catch (error) {
-      console.error('Lỗi khi lấy thông tin người dùng!', error);
-    }
-
+    sessionStorage.setItem('jwtToken', token);
+  
     // Dựa vào role để điều hướng người dùng
     if (role === 'admin') {
       navigate('/dashboard');
@@ -89,23 +76,27 @@ function Login() {
     }
   };
 
+  //xử lý đăng nhập 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     try {
-      const response = await axios.post('http://localhost:4000/login', {
+      const response = await axios.post('https://localhost:7211/Account/login', {
         username: loginFormData.username,
         password: loginFormData.password,
       });
-
-      if (response.data.success) {
+  
+      if (response.data.state) {
         console.log('Đăng nhập thành công!');
-        handleLoginSuccess(response.data.user.token, response.data.user.role);
+        sessionStorage.setItem('fullname', response.data.data.name);
+        // Handle the success as needed, for example, redirect to another page
+        handleLoginSuccess(response.data.message, response.data.data.role); // Corrected this line
+        sessionStorage.setItem("idUser", response.data.data.id)
       } else {
         console.log('Đăng nhập không thành công! Kiểm tra tên thông tin');
       }
     } catch (error) {
-      if (error.response.status === 401) {
+      if (error.response && error.response.status === 401) {
         alert('Đăng nhập không thành công! Kiểm tra tên thông tin');
       } else {
         console.error('Lỗi khi đăng nhập!', error);
@@ -113,9 +104,10 @@ function Login() {
     }
   };
 
+// xử lý đăng ký
   const handleRegister = async (e) => {
     e.preventDefault();
-
+  
     if (
       !registerFormData.fullname ||
       !registerFormData.username ||
@@ -126,7 +118,7 @@ function Login() {
       alert('Vui lòng nhập đủ thông tin!.');
       return;
     }
-
+  
     if (registerFormData.password.length < 6 || registerFormData.password.length >= 25) {
       alert('Mật khẩu có độ dài từ 6 đến 25 ký tự!.');
       return;
@@ -134,21 +126,24 @@ function Login() {
       alert('Mật khẩu phải chứa ít nhất một chữ cái và một số.');
       return;
     }
-
+  
     if (registerFormData.password !== registerFormData.confirmPassword) {
       alert('Mật khẩu và xác nhận mật khẩu không khớp!.');
       return;
     }
-
+  
     try {
-      const response = await axios.post('http://localhost:4000/register', {
-        fullname: registerFormData.fullname,
-        username: registerFormData.username,
+      const response = await axios.post('https://localhost:7211/Account/register', {
         email: registerFormData.email,
+        username: registerFormData.username,
         password: registerFormData.password,
+        name: registerFormData.fullname,
       });
-
-      if (response.data.success) {
+  
+      console.log(response);
+  
+      if (response.data.state) {
+        // Assuming 'state' is used to indicate success
         alert('Đăng ký thành công!');
         setRegisterFormData({
           fullname: '',
@@ -160,19 +155,29 @@ function Login() {
         });
         handleTabChange('login');
       } else {
-        alert('Đăng ký không thành công!.', response.data.message);
+        alert('Đăng ký không thành công! ' + response.data.message);
       }
     } catch (error) {
-      if (error.response.status === 400) {
-        alert('Đăng ký không thành công!');
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        if (error.response.status === 400) {
+          alert('Đăng ký không thành công! Dữ liệu không hợp lệ.');
+        } else {
+          alert(`Đăng ký không thành công! Lỗi server: ${error.response.status}`);
+          console.error('Lỗi khi thực hiện đăng ký!', error.response.data);
+        }
+      } else if (error.request) {
+        // The request was made but no response was received
+        console.error('Lỗi khi thực hiện đăng ký! Không nhận được phản hồi từ server.');
       } else {
-        console.error('Lỗi khi thực hiện đăng ký!', error);
+        // Something happened in setting up the request that triggered an Error
+        console.error('Lỗi khi thực hiện đăng ký!', error.message);
       }
     }
   };
-
+  
   return (
-    <div className="card">
+    <div style={{marginBottom: 80}} className="card">
       <div className="card-body">
         <ul className="nav nav-tabs">
           <li className="nav-item">
@@ -195,48 +200,63 @@ function Login() {
 
         <div className="tab-content">
           {activeTab === 'login' && (
-            <div id="login" className={`tab-pane ${activeTab === 'login' ? 'show active' : ''}`}>
-              <h5 className="card-title">Đăng nhập</h5>
-              <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                  <label htmlFor="login-username">Tên đăng nhập</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="login-username"
-                    name="username"
-                    value={loginFormData.username}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="login-password">Mật khẩu</label>
-                  <div className="input-group">
+              <div id="login" className={`tab-pane ${activeTab === 'login' ? 'show active' : ''}`}>
+                <h5 className="card-title">Đăng nhập</h5>
+                <form onSubmit={handleSubmit}>
+                  <div className="form-group">
+                    <label htmlFor="login-username">Tên đăng nhập</label>
                     <input
-                      type={showLoginPassword ? 'text' : 'password'}
+                      type="text"
                       className="form-control"
-                      id="login-password"
-                      name="password"
-                      value={loginFormData.password}
+                      id="login-username"
+                      name="username"
+                      value={loginFormData.username}
                       onChange={handleChange}
                     />
-                    <div className="input-group-append">
-                      <button
-                        type="button"
-                        className="btn btn-outline-secondary"
+                  </div>
+                  <div className="form-group" style={{ position: 'relative' }}>
+                    <label htmlFor="login-password">Mật khẩu</label>
+                    <div className="input-group">
+                      <input
+                        type={showLoginPassword ? 'text' : 'password'}
+                        className="form-control"
+                        id="login-password"
+                        name="password"
+                        value={loginFormData.password}
+                        onChange={handleChange}
+                      />
+                      <span
+                        className="eye-icon"
+                        style={{
+                          position: 'absolute',
+                          top: '50%',
+                          right: '10px',
+                          transform: 'translateY(-50%)',
+                          cursor: 'pointer',
+                        }}
                         onClick={() => togglePasswordVisibility('login')}
                       >
                         <FontAwesomeIcon icon={showLoginPassword ? faEye : faEyeSlash} />
-                      </button>
+                      </span>
                     </div>
                   </div>
-                </div>
-                <button type="submit" className="btn btn-primary btn-submit-login">
-                  Đăng nhập
-                </button>
-              </form>
-            </div>
+                  <div>
+                    <span style={{ fontSize: 12, color: 'black', margin: '5px 0' }}>
+                      Nếu bạn quên mật khẩu. Vui lòng chọn vào{' '}
+                      <span className="forgot-password-link" onClick={handleForgotPasswordClick}>
+                        đây
+                      </span>
+                      !
+                    </span>
+                  </div>
+                  <button type="submit" className="btn btn-primary btn-submit-login">
+                    Đăng nhập
+                  </button>
+                </form>
+              </div>
           )}
+
+
           {activeTab === 'register' && (
             <div id="register" className={`tab-pane ${activeTab === 'register' ? 'show active' : ''}`}>
               <h5 className="card-title">Đăng ký</h5>
@@ -274,7 +294,7 @@ function Login() {
                     onChange={handleChange}
                   />
                 </div>
-                <div className="form-group">
+                <div className="form-group" style={{ position: 'relative' }}>
                   <label htmlFor="register-password">Mật khẩu</label>
                   <div className="input-group">
                     <input
@@ -285,18 +305,22 @@ function Login() {
                       value={registerFormData.password}
                       onChange={handleChange}
                     />
-                    <div className="input-group-append">
-                      <button
-                        type="button"
-                        className="btn btn-outline-secondary"
-                        onClick={() => togglePasswordVisibility('login')}
-                      >
-                        <FontAwesomeIcon icon={showLoginPassword ? faEye : faEyeSlash} />
-                      </button>
-                    </div>
+                    <span
+                      className="eye-icon"
+                      style={{
+                        position: 'absolute',
+                        top: '50%',
+                        right: '10px',
+                        transform: 'translateY(-50%)',
+                        cursor: 'pointer',
+                      }}
+                      onClick={() => togglePasswordVisibility('login')}
+                    >
+                      <FontAwesomeIcon icon={showLoginPassword ? faEye : faEyeSlash} />
+                    </span>
                   </div>
                 </div>
-                <div className="form-group">
+                <div className="form-group" style={{ position: 'relative' }}>
                   <label htmlFor="register-confirm-password">Xác nhận mật khẩu</label>
                   <div className="input-group">
                     <input
@@ -307,19 +331,23 @@ function Login() {
                       value={registerFormData.confirmPassword}
                       onChange={handleChange}
                     />
-                    <div className="input-group-append">
-                      <button
-                        type="button"
-                        className="btn btn-outline-secondary"
-                        onClick={() => togglePasswordVisibility('confirmPassword')}
-                      >
-                        <FontAwesomeIcon icon={showConfirmPassword  ? faEye : faEyeSlash} />
-                      </button>
-                    </div>
+                    <span
+                      className="eye-icon"
+                      style={{
+                        position: 'absolute',
+                        top: '50%',
+                        right: '10px',
+                        transform: 'translateY(-50%)',
+                        cursor: 'pointer',
+                      }}
+                      onClick={() => togglePasswordVisibility('confirmPassword')}
+                    >
+                      <FontAwesomeIcon icon={showConfirmPassword ? faEye : faEyeSlash} />
+                    </span>
                   </div>
                 </div>
                 <div className="form-check">
-                  <div className='rules' style={{borderRadius: 5, lineHeight: 2.5, fontWeight: 400, color: 'black', border: '1px solid #dee2e6', scrollBehavior: 'smooth', overflow: 'auto', width: '50%', height: 150, margin: '15px 0', padding: 10, fontSize: 9}}>
+                  <div className='rules' style={{borderRadius: 5, lineHeight: 2.5, fontWeight: 400, color: 'black', border: '1px solid #dee2e6', scrollBehavior: 'smooth', overflow: 'auto', width: '100%', height: 150, margin: '15px 0', padding: 10, fontSize: 9}}>
                     <h4 style={{fontSize: 12}}>Tóm tắt các Điều khoản</h4>
                     <span> + Cùng với các Điều khoản trên trang này, còn có hai tài liệu khác cùng nhau hợp thành hợp đồng giữa chúng tôi với bạn:</span><br/>
                     <span> + Trang Chúng tôi hoạt động như thế nào giúp bạn sử dụng Nền tảng của chúng tôi và hiểu về các đánh giá, xếp hạng, gợi ý của chúng tôi, cách chúng tôi kiếm tiền và những vấn đề khác nữa.</span><br/>
