@@ -9,6 +9,8 @@ const Logout = () => {
     sessionStorage.removeItem('jwtToken');
     sessionStorage.removeItem('role');
     sessionStorage.removeItem("idUser")
+    sessionStorage.removeItem("fullname")
+
 
     // Chuyển hướng về trang đăng nhập hoặc trang chủ
     navigate('/dang-nhap');

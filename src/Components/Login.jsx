@@ -94,12 +94,14 @@ function Login() {
         sessionStorage.setItem("idUser", response.data.data.id)
       } else {
         console.log('Đăng nhập không thành công! Kiểm tra tên thông tin');
+        alert("Vui lòng kiểm tra lại thông tin")
       }
     } catch (error) {
-      if (error.response && error.response.status === 401) {
+      if (error.response) {
         alert('Đăng nhập không thành công! Kiểm tra tên thông tin');
       } else {
         console.error('Lỗi khi đăng nhập!', error);
+        alert("Tài khoản không tồn tại");
       }
     }
   };
@@ -161,7 +163,7 @@ function Login() {
       if (error.response) {
         // The request was made and the server responded with a status code
         if (error.response.status === 400) {
-          alert('Đăng ký không thành công! Dữ liệu không hợp lệ.');
+          alert('Đăng ký không thành công! Tài khoản hoặc địa chỉ email đã được đăng ký.');
         } else {
           alert(`Đăng ký không thành công! Lỗi server: ${error.response.status}`);
           console.error('Lỗi khi thực hiện đăng ký!', error.response.data);

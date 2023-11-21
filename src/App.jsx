@@ -16,6 +16,7 @@ import BookingConfirmation from "./Components/BookingConfirmation";
 import AccountManagement from "./Components/AccountManagement";
 import ForgotPassword from "./Components/forgotPassword";
 import ResetPassword from "./Components/ResetPassword";
+import DetailHotel2 from "./Components/admin/DetailHotel";
 function App() {
 
   return (
@@ -36,6 +37,8 @@ function App() {
           <Route path="/quan-ly-tai-khoan" element={<AccountManagement/>}/>
           <Route path="/forgot-password" element={<ForgotPassword/>}/>
           <Route path="/ResetPassword" element={<ResetPassword />} />
+          <Route path="/dashboard/detail-hotel/:hotelId" element={<DetailHotel2 />} />
+
         </Routes>
       </div>
       < Footer />
