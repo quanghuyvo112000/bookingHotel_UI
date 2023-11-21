@@ -1,8 +1,9 @@
 import React from 'react'
+import ContentAbout from '../Containers/About/ContentAbout'
 
 const About = () => {
   return (
-    <div>About</div>
+    <div><ContentAbout /></div>
   )
 }
 

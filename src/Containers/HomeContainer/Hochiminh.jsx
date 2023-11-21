@@ -1,10 +1,10 @@
 // Hochiminh.js
-import React from 'react';
-import image1 from './img/hochiminh1.jpg';
-import image2 from './img/hochiminh2.jpg';
-import image3 from './img/hochiminh3.jpg';
+import React from "react";
+import image1 from "./img/hochiminh1.jpg";
+import image2 from "./img/hochiminh2.jpg";
+import image3 from "./img/hochiminh3.jpg";
 
-import './mainLocal.css';
+import "./mainLocal.css";
 
 const Hochiminh = () => {
   return (

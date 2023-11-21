@@ -68,7 +68,7 @@ const Menu = () => {
   );
 
     return (
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <nav className="navbar navbar-expand-lg navbar-light bg-light nav-menu-hotel">
         <div className="container">
           <Link
             to="/"
@@ -98,7 +98,7 @@ const Menu = () => {
               {userRole === "admin"
                 ? renderMenuItem("/dashboard", "Dashboard")
                 : renderMenuItem("/about", "About")}
-              {renderMenuItem("/contact", "Contact")}
+              {renderMenuItem("/contact", "Hợp tác với chúng tôi")}
             </ul>
             <ul className="navbar-nav justify-content-end">
               {isLoggedIn ? renderAuthenticatedMenu() : renderLoginLink()}

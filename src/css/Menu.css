@@ -1,17 +1,27 @@
+
 .active {
     font-weight: bold;
     color: rgba(6, 77, 139, 0.668) !important;
     transition: color 1.2s ease;
+    border-radius: 50px !important;
 }
-
+.navbar-nav .nav-link.active{
+    border: 1px solid #3b88cc !important;
+    background-color: #3b88cc !important;
+    border-radius: 50px !important;
+    color: #fff !important;
+    text-align: center !important;
+}
 .nav-link:hover, .navbar-brand:hover{
     color: rgba(6, 77, 139, 0.668);
     transition: color 1s ease;
+    border-radius: 50px !important;
 }
 
 .card-title, .nav-tabs, .nav-link, label, .navbar-brand{
     color: black;
     margin: 10px 0;
+    border-radius: 50px !important;
     transition: color 1s ease;
 }
 
