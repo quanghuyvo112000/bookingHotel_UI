@@ -1,17 +1,21 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { useState } from "react";
+import axios from "axios";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const PassChange = () => {
-  const [username, setUsername] = useState('');  // Thêm state cho username
-  const [currentPassword, setCurrentPassword] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmNewPassword, setConfirmNewPassword] = useState('');
-  const [message, setMessage] = useState('');
+  const [username, setUsername] = useState(""); // Thêm state cho username
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmNewPassword, setConfirmNewPassword] = useState("");
+  const [message, setMessage] = useState("");
 
   // Mảng trạng thái hiện/ẩn mật khẩu cho từng trường
-  const [showPasswordFields, setShowPasswordFields] = useState([false, false, false]);
+  const [showPasswordFields, setShowPasswordFields] = useState([
+    false,
+    false,
+    false,
+  ]);
 
   // Hàm kiểm tra mật khẩu
   const isPasswordValid = (password) => {
@@ -27,25 +31,47 @@ const PassChange = () => {
     if (isPasswordValid(newPassword)) {
       if (newPassword === confirmNewPassword) {
         try {
-          // Gọi API để thay đổi mật khẩu
-          const response = await axios.put(`https://localhost:7211/Account/changePassword`, {
-            username: username,  // Thêm thông tin tài khoản cần thay đổi mật khẩu
-            password: newPassword,  // Thay đổi thành mật khẩu mới
-            oldPassword: currentPassword,  // Mật khẩu hiện tại
-          });
+          // Lấy token từ sessionStorage
+          const token = sessionStorage.getItem("jwtToken");
+
+          // Kiểm tra xem token có tồn tại không
+          if (!token) {
+            // Xử lý khi không có token, có thể chuyển hướng hoặc hiển thị thông báo
+            console.error("Không tìm thấy token. Đăng nhập lại để tiếp tục.");
+            setMessage("Không tìm thấy token. Đăng nhập lại để tiếp tục.");
+            return;
+          }
+
+          // Gọi API để thay đổi mật khẩu và thêm xác thực token
+          const response = await axios.put(
+            "https://localhost:7211/Account/changePassword",
+            {
+              username: username, // Thêm thông tin tài khoản cần thay đổi mật khẩu
+              password: newPassword, // Thay đổi thành mật khẩu mới
+              oldPassword: currentPassword, // Mật khẩu hiện tại
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
 
           // Hiển thị thông báo từ phản hồi của máy chủ
           setMessage(response.data.message);
         } catch (error) {
-          console.error('Lỗi khi thay đổi mật khẩu:', error.response ? error.response.data.message : error.message);
-          setMessage('Mật khẩu hiện tại không trùng khớp.');
+          console.error(
+            "Lỗi khi thay đổi mật khẩu:",
+            error.response ? error.response.data.message : error.message
+          );
+          setMessage("Mật khẩu hiện tại không trùng khớp.");
         }
       } else {
         // Hiển thị thông báo lỗi nếu mật khẩu mới và xác nhận mật khẩu mới không khớp
-        setMessage('Mật khẩu mới và xác nhận mật khẩu mới không khớp.');
+        setMessage("Mật khẩu mới và xác nhận mật khẩu mới không khớp.");
       }
     } else {
-      setMessage('Mật khẩu mới phải có ít nhất 1 chữ số và 1 ký tự.');
+      setMessage("Mật khẩu mới phải có ít nhất 1 chữ số và 1 ký tự.");
     }
   };
 
@@ -57,16 +83,18 @@ const PassChange = () => {
   };
 
   return (
-    <div style={{
-      borderRadius: '0.375rem',
-      border: '1px solid #d2d2d2',
-      padding: '15px',
-      marginBottom: '50px',
-      width: '100%'
-    }}>
+    <div
+      style={{
+        borderRadius: "0.375rem",
+        border: "1px solid #d2d2d2",
+        padding: "15px",
+        marginBottom: "50px",
+        width: "100%",
+      }}
+    >
       <h4 style={{ fontSize: 18 }}>Thay Đổi Mật Khẩu</h4>
       <form onSubmit={handleSubmit}>
-        <div className="mb-3" style={{ position: 'relative' }}>
+        <div className="mb-3" style={{ position: "relative" }}>
           <label htmlFor="username" className="form-label">
             Tên đăng nhập:
           </label>
@@ -79,43 +107,59 @@ const PassChange = () => {
             required
           />
         </div>
-        {['currentPassword', 'newPassword', 'confirmNewPassword'].map((fieldName, index) => (
-          <div key={fieldName} className="mb-3" style={{ position: 'relative' }}>
-            <label htmlFor={fieldName} className="form-label">
-              {index === 0 ? 'Mật khẩu hiện tại:' : (index === 1 ? 'Mật khẩu mới:' : 'Xác nhận mật khẩu mới:')}
-            </label>
-            <div className="password-input" style={{ position: 'relative' }}>
-              <input
-                type={showPasswordFields[index] ? 'text' : 'password'}
-                className="form-control"
-                id={fieldName}
-                value={index === 0 ? currentPassword : (index === 1 ? newPassword : confirmNewPassword)}
-                onChange={(e) => {
-                  if (index === 0) {
-                    setCurrentPassword(e.target.value);
-                  } else if (index === 1) {
-                    setNewPassword(e.target.value);
-                  } else {
-                    setConfirmNewPassword(e.target.value);
+        {["currentPassword", "newPassword", "confirmNewPassword"].map(
+          (fieldName, index) => (
+            <div
+              key={fieldName}
+              className="mb-3"
+              style={{ position: "relative" }}
+            >
+              <label htmlFor={fieldName} className="form-label">
+                {index === 0
+                  ? "Mật khẩu hiện tại:"
+                  : index === 1
+                  ? "Mật khẩu mới:"
+                  : "Xác nhận mật khẩu mới:"}
+              </label>
+              <div className="password-input" style={{ position: "relative" }}>
+                <input
+                  type={showPasswordFields[index] ? "text" : "password"}
+                  className="form-control"
+                  id={fieldName}
+                  value={
+                    index === 0
+                      ? currentPassword
+                      : index === 1
+                      ? newPassword
+                      : confirmNewPassword
                   }
-                }}
-                required
-              />
-              <FontAwesomeIcon
-                icon={showPasswordFields[index] ? faEyeSlash : faEye}
-                className="password-icon"
-                onClick={() => handleTogglePasswordVisibility(index)}
-                style={{
-                  position: 'absolute',
-                  top: '50%',
-                  right: '10px',
-                  transform: 'translateY(-50%)',
-                  cursor: 'pointer',
-                }}
-              />
+                  onChange={(e) => {
+                    if (index === 0) {
+                      setCurrentPassword(e.target.value);
+                    } else if (index === 1) {
+                      setNewPassword(e.target.value);
+                    } else {
+                      setConfirmNewPassword(e.target.value);
+                    }
+                  }}
+                  required
+                />
+                <FontAwesomeIcon
+                  icon={showPasswordFields[index] ? faEyeSlash : faEye}
+                  className="password-icon"
+                  onClick={() => handleTogglePasswordVisibility(index)}
+                  style={{
+                    position: "absolute",
+                    top: "50%",
+                    right: "10px",
+                    transform: "translateY(-50%)",
+                    cursor: "pointer",
+                  }}
+                />
+              </div>
             </div>
-          </div>
-        ))}
+          )
+        )}
         <button type="submit" className="btn btn-primary">
           Thay Đổi Mật Khẩu
         </button>
