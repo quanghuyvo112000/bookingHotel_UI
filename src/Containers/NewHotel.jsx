@@ -6,6 +6,7 @@ const NewHotel = () => {
     id: "",
     name: "",
     location: "HoChiMinh",
+    address: "",
     typeId: "",
     payType: "Thanh toán khi nhận phòng",
     image: "",
@@ -13,11 +14,12 @@ const NewHotel = () => {
   });
 
   const [types, setTypes] = useState([]);
-  const Token = sessionStorage.getItem("jwtToken");
+  const token = sessionStorage.getItem("jwtToken");
   const labels = {
     id: "ID khách sạn",
     name: "Tên khách sạn",
     location: "Địa điểm",
+    address: "Địa chỉ",
     typeId: "Loại khách sạn",
     payType: "Hình thức thanh toán",
     image: "Hình ảnh",
@@ -31,7 +33,7 @@ const NewHotel = () => {
           "https://localhost:7211/Hotel/getType",
           {
             headers: {
-              Authorization: `Bearer ${Token}`,
+              Authorization: `Bearer ${token}`,
             },
           }
         );
@@ -42,7 +44,7 @@ const NewHotel = () => {
     };
 
     fetchTypes();
-  }, [Token]);
+  }, [token]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -51,14 +53,13 @@ const NewHotel = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       const response = await axios.post(
         "https://localhost:7211/Hotel/add",
         hotelInfo,
         {
           headers: {
-            Authorization: `Bearer ${Token}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -70,6 +71,7 @@ const NewHotel = () => {
           id: "",
           name: "",
           location: "HoChiMinh",
+          address: "",
           typeId: "",
           payType: "Thanh toán khi nhận phòng",
           image: "",
@@ -115,7 +117,16 @@ const NewHotel = () => {
                 }
               >
                 <option value="HoChiMinh">Hồ Chí Minh</option>
-                {/* ... (other options) */}
+                <option value="HaNoi">Hà Nội</option>
+                <option value="HaiPhong">Hải Phòng</option>
+                <option value="Hue">Huế</option>
+                <option value="DaNang">Đà Nẵng</option>
+                <option value="NhaTrang">Nha Trang</option>
+                <option value="BinhThuan">Bình Thuận</option>
+                <option value="HoiAn">Hội An</option>
+                <option value="CaoBang">Cao Bằng</option>
+                <option value="QuocPhuc">Quốc Phúc</option>
+                <option value="HaLong">Hạ Long</option>
               </select>
             ) : (
               <input

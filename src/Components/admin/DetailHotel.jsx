@@ -5,7 +5,7 @@ import axios from "axios";
 import UpdateHotel from "./UpdateHotel";
 import DeleteHotel from "./DeleteHotel";
 import AddRoom from "./AddRoom";
-import GetRoom from "./getRoom";
+// import GetRoom from "./getRoom";
 
 import "./style/main.css";
 
@@ -154,7 +154,7 @@ const DetailHotel = () => {
             )}
           </div>
           <div className="col-12 col-sm-12 col-md-12 col-lg-12">
-            <GetRoom hotelId={hotelId} />
+            {/* <GetRoom hotelId={hotelId} /> */}
           </div>
         </div>
       </div>
