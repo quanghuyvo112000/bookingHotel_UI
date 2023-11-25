@@ -1,86 +1,235 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLocationDot, faMapLocationDot, faBuildingCircleCheck, faCartFlatbedSuitcase, faHotel, faCashRegister, faCreditCard, faCircleCheck, faBed } from '@fortawesome/free-solid-svg-icons';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faLocationDot,
+  faBed,
+  faHotel,
+  faCalendarDays,
+  faClock,
+  faPersonShelter,
+  faTrash,
+  faMoneyBill,
+} from "@fortawesome/free-solid-svg-icons";
+
+import "../css/BookingConfirmation.css";
 
 const Bill = () => {
   const [bills, setBills] = useState([]);
-  const userId = sessionStorage.getItem('idUser');
+  const [isBookingSuccess, setIsBookingSuccess] = useState(false);
+
+  const userId = sessionStorage.getItem("idUser");
+
+  const token = sessionStorage.getItem("jwtToken");
 
   useEffect(() => {
     const fetchBills = async () => {
       try {
-        const response = await axios.get(`http://localhost:4000/bills/${userId}`);
-        setBills(response.data);
+        const response = await axios.get(
+          `https://localhost:7211/getAll?id=${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setBills(response.data.data);
       } catch (error) {
-        console.error('Error fetching bills:', error);
+        console.error("Error fetching bills:", error);
       }
     };
 
     fetchBills();
-  }, [userId]);
+  }, [userId, token]);
 
-  const mapPaymentMethod = (payment) => {
-    switch (payment) {
-      case 'nhanphong':
-        return 'Thanh toán khi nhận phòng';
-      case 'creditCard':
-        return 'Credit Card';
-      case 'bank':
-        return 'Ngân hàng';
-      default:
-        return payment;
-    }
+  const typeIdOptions = {
+    TR01: "Standard",
+    TR02: "Superior",
+    TR03: "Deluxe",
+    TR04: "Suite",
+  };
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+
+    return `${day}/${month}/${year}`;
   };
 
-  const formatCheckInDate = (dateString) => {
-    const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
-    return new Date(dateString).toLocaleDateString('en-GB', options);
+  // format tiền
+  const formatCurrency = (amount) => {
+    return new Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(amount);
   };
 
-  const handleCancelRoom = async (billId) => {
+  // Xóa hóa đơn
+  const handleCancelBooking = async (billId) => {
     try {
-      console.log("Canceling room for Bill ID:", billId);
-      // Gửi yêu cầu DELETE để xóa hóa đơn
-      await axios.delete(`http://localhost:4000/bills/${billId}`);
-      
-      // Cập nhật danh sách hóa đơn sau khi xóa
-      const updatedBills = bills.filter(bill => bill.id !== billId);
-      setBills(updatedBills);
-
-      console.log(`Cancel room for bill with ID ${billId}`);
+      debugger;
+      const response = await axios.delete(
+        `https://localhost:7211/Bill/delete`,
+        {
+          data: { id: billId },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      // Nếu xóa thành công, cập nhật danh sách hóa đơn
+      if (response.data.state) {
+        setIsBookingSuccess(true);
+        const updatedBills = bills.filter((bill) => bill.id !== billId);
+        setBills(updatedBills);
+      } else {
+        console.error("Lỗi xóa hóa đơn:", response.data.message);
+      }
     } catch (error) {
-      console.error('Error cancelling room:', error);
+      console.error("Lỗi xóa hóa đơn:", error);
     }
-
   };
 
-
+  //   đóng popup
+  const handleClosePopup = () => {
+    setIsBookingSuccess(false);
+  };
 
   return (
-    <div style={{marginBottom: 50}} className="container">
+    <div style={{ marginBottom: 100 }} className="container">
       <br />
       {bills.length > 0 ? (
         <div className="row">
           {bills.map((bill) => (
-            <div key={bill.id} className="col-md-6 mb-4">
+            <div
+              key={bill.id}
+              className="col-12 col-sm-12 col-md-12 col-lg-6 mb-4"
+            >
               <div className="card">
                 <div className="card-body">
-                  <h4 style={{ fontSize: 16 }}> <FontAwesomeIcon icon={faHotel} style={{ color: "#275fbe" }} /> {bill.hotelInfo.nameHotel} </h4>
-                  <p> <FontAwesomeIcon icon={faLocationDot} style={{ color: "#275fbe" }} /> Khu vực: {bill.hotelInfo.location}, <br /> <FontAwesomeIcon icon={faMapLocationDot} style={{ color: "#275fbe" }} /> Địa chỉ: {bill.hotelInfo.address}</p>
-                  <hr />
-                  <p style={{ fontSize: 14, fontWeight: 500 }}>Thông tin phòng: {bill.roomInfo.nameRoom}</p>
-                  <p> <FontAwesomeIcon icon={faBuildingCircleCheck} style={{ color: "#275fbe" }} /> Ngày Check-In: {formatCheckInDate(bill.checkInDate)}</p>
-                  <p> <FontAwesomeIcon icon={faCartFlatbedSuitcase} style={{ color: "#275fbe" }} /> Ngày Check-Out: {bill.checkOutDate}</p>
-                  <p> <FontAwesomeIcon icon={faBed} style={{ color: "#275fbe" }} /> Số phòng đã đặt: {bill.numRooms} phòng</p>
-                  <p> <FontAwesomeIcon icon={faCashRegister} style={{ color: "#275fbe" }} /> Tổng tiền thanh toán: {bill.totalAmount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</p>
-                  <p> <FontAwesomeIcon icon={faCreditCard} style={{ color: "#275fbe" }} /> Hình thức thanh toán: {mapPaymentMethod(bill.payment)}</p>
-                  <p> <FontAwesomeIcon icon={faCircleCheck} style={{ color: "#275fbe" }} /> Trạng thái: {bill.state}</p>
-                  {bill.state === 'chờ phê duyệt' && (
-                    <button  style={{ float: "right" }} className="btn btn-danger" onClick={() => handleCancelRoom(bill.id)}>Hủy phòng</button>
-                  )}
-                  {bill.state === 'đã duyệt' && (
-                    <button style={{ float: "right" }} className="btn btn-secondary" disabled={false}>Không hủy phòng</button>
+                  <h4 style={{ fontSize: 16 }}>
+                    {" "}
+                    {bill.room && bill.room.hotel
+                      ? bill.room.hotel.name
+                      : "Không có tên"}
+                  </h4>
+                  <p>
+                    {" "}
+                    <FontAwesomeIcon
+                      style={{
+                        color: "#0264c8",
+                      }}
+                      icon={faLocationDot}
+                    />{" "}
+                    {bill.room && bill.room.hotel
+                      ? bill.room.hotel.address
+                      : "Không có địa chỉ"}
+                  </p>
+                  <p>
+                    {" "}
+                    <FontAwesomeIcon
+                      style={{
+                        color: "#0264c8",
+                      }}
+                      icon={faHotel}
+                    />{" "}
+                    Kiểu phòng: {typeIdOptions[bill.room.typeRoomId]}
+                  </p>
+                  <p>
+                    {" "}
+                    <FontAwesomeIcon
+                      style={{
+                        color: "#0264c8",
+                      }}
+                      icon={faBed}
+                    />{" "}
+                    Kiểu giường: {bill.room.bed}
+                  </p>
+                  <p>
+                    {" "}
+                    <FontAwesomeIcon
+                      style={{
+                        color: "#0264c8",
+                      }}
+                      icon={faCalendarDays}
+                    />{" "}
+                    Ngày nhận phòng: {formatDate(bill.date)}
+                  </p>
+                  <p>
+                    {" "}
+                    <FontAwesomeIcon
+                      style={{
+                        color: "#0264c8",
+                      }}
+                      icon={faClock}
+                    />{" "}
+                    Số ngày thuê: {bill.period} ngày
+                  </p>
+                  <p>
+                    {" "}
+                    <FontAwesomeIcon
+                      style={{
+                        color: "#0264c8",
+                      }}
+                      icon={faPersonShelter}
+                    />{" "}
+                    Số lượng phòng thuê: {bill.amount} phòng
+                  </p>
+                  <p>
+                    {" "}
+                    <FontAwesomeIcon
+                      style={{
+                        color: "#0264c8",
+                      }}
+                      icon={faMoneyBill}
+                    />{" "}
+                    Tổng thanh toán: {formatCurrency(bill.total)}
+                  </p>
+                  <div>
+                    {bill.status === false && (
+                      <p>
+                        Trạng thái:{" "}
+                        <span style={{ color: "red" }}>Đang chờ phê duyệt</span>
+                      </p>
+                    )}
+                    {bill.status === true && (
+                      <p>
+                        Trạng thái:{" "}
+                        <span style={{ color: "green" }}>Đã phê duyệt</span>
+                      </p>
+                    )}
+                  </div>
+                  <div>
+                    <button
+                      className="btn btn-danger ml-auto"
+                      disabled={bill.status === true}
+                      onClick={() => handleCancelBooking(bill.id)}
+                    >
+                      {" "}
+                      Hủy phòng
+                    </button>
+                  </div>
+                  {isBookingSuccess && (
+                    <div className="popup">
+                      <FontAwesomeIcon
+                        style={{
+                          fontSize: 50,
+                          color: "red",
+                          textAlign: "center",
+                          marginBottom: 15,
+                        }}
+                        icon={faTrash}
+                      />
+                      <p>Hủy phòng thành công!</p>
+                      <button
+                        type="button"
+                        className="btn btn-secondary"
+                        onClick={handleClosePopup}
+                      >
+                        Đóng
+                      </button>
+                    </div>
                   )}
                 </div>
               </div>

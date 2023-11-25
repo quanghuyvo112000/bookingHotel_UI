@@ -12,13 +12,12 @@ import Logout from "./Components/Logout";
 import Bill from "./Containers/Bill";
 import ListHotel from "./Components/ListHotel";
 import DetailHotel from "./Components/DetailHotel";
-import BookingConfirmation from "./Components/BookingConfirmation";
 import AccountManagement from "./Components/AccountManagement";
 import ForgotPassword from "./Components/forgotPassword";
 import ResetPassword from "./Components/ResetPassword";
 import DetailHotel2 from "./Components/admin/DetailHotel";
+import BookRoom from "./Components/BookRoom";
 function App() {
-
   return (
     <div>
       <Menu />
@@ -27,21 +26,26 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/dang-nhap" element={<Login/>}/>
-          <Route path="/dashboard" element={<Dashboard/>}/>
-          <Route path="/logout" element={<Logout/>}/>
-          <Route path="/danh-sach-khach-san" element={<ListHotel/>}/>
-          <Route path="/chi-tiet-khach-san/:hotelId" element={<DetailHotel/>}/>
-          <Route path="/xac-nhan-dat-phong" element={<BookingConfirmation/>}/>
-          <Route path="/hoa-don-dat-phong" element={<Bill/>}/>
-          <Route path="/quan-ly-tai-khoan" element={<AccountManagement/>}/>
-          <Route path="/forgot-password" element={<ForgotPassword/>}/>
+          <Route path="/dang-nhap" element={<Login />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/logout" element={<Logout />} />
+          <Route path="/danh-sach-khach-san" element={<ListHotel />} />
+          <Route
+            path="/chi-tiet-khach-san/:hotelId"
+            element={<DetailHotel />}
+          />
+          <Route path="/xac-nhan-dat-phong/:roomId" element={<BookRoom />} />
+          <Route path="/hoa-don-dat-phong" element={<Bill />} />
+          <Route path="/quan-ly-tai-khoan" element={<AccountManagement />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/ResetPassword" element={<ResetPassword />} />
-          <Route path="/dashboard/detail-hotel/:hotelId" element={<DetailHotel2 />} />
-
+          <Route
+            path="/dashboard/detail-hotel/:hotelId"
+            element={<DetailHotel2 />}
+          />
         </Routes>
       </div>
-      < Footer />
+      <Footer />
     </div>
   );
 }

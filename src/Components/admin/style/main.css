@@ -22,4 +22,9 @@
     align-items: center;
     width: 400px;
   }
-  
+  @media only screen and (min-width: 990px) {
+    .img-getRoom{
+      height: 277px !important;
+    }
+
+  }

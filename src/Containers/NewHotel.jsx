@@ -16,7 +16,6 @@ const NewHotel = () => {
   const [types, setTypes] = useState([]);
   const token = sessionStorage.getItem("jwtToken");
   const labels = {
-    id: "ID khách sạn",
     name: "Tên khách sạn",
     location: "Địa điểm",
     address: "Địa chỉ",
@@ -86,60 +85,65 @@ const NewHotel = () => {
   return (
     <div className="container mt-5">
       <form onSubmit={handleSubmit}>
-        {Object.keys(hotelInfo).map((field) => (
-          <div key={field} className="mb-3">
-            <label htmlFor={field} className="form-label">
-              {field === "typeId" ? "Loại ID" : labels[field]}
-            </label>
-            {field === "typeId" ? (
-              <select
-                id={field}
-                name={field}
-                value={hotelInfo[field]}
-                onChange={handleInputChange}
-                className="form-control"
-              >
-                <option value="">Chọn loại</option>
-                {types.map((type) => (
-                  <option key={type.id} value={type.id}>
-                    {type.name}
-                  </option>
-                ))}
-              </select>
-            ) : field === "location" ? (
-              <select
-                className="form-control"
-                value={hotelInfo.location}
-                onChange={(e) =>
-                  handleInputChange({
-                    target: { name: "location", value: e.target.value },
-                  })
-                }
-              >
-                <option value="HoChiMinh">Hồ Chí Minh</option>
-                <option value="HaNoi">Hà Nội</option>
-                <option value="HaiPhong">Hải Phòng</option>
-                <option value="Hue">Huế</option>
-                <option value="DaNang">Đà Nẵng</option>
-                <option value="NhaTrang">Nha Trang</option>
-                <option value="BinhThuan">Bình Thuận</option>
-                <option value="HoiAn">Hội An</option>
-                <option value="CaoBang">Cao Bằng</option>
-                <option value="QuocPhuc">Quốc Phúc</option>
-                <option value="HaLong">Hạ Long</option>
-              </select>
-            ) : (
-              <input
-                type="text"
-                id={field}
-                name={field}
-                value={hotelInfo[field]}
-                onChange={handleInputChange}
-                className="form-control"
-              />
-            )}
-          </div>
-        ))}
+        {Object.keys(hotelInfo).map((field) => {
+          // Bỏ qua trường id khi tạo input
+          if (field === "id") return null;
+
+          return (
+            <div key={field} className="mb-3">
+              <label htmlFor={field} className="form-label">
+                {field === "typeId" ? "Mô hình" : labels[field]}
+              </label>
+              {field === "typeId" ? (
+                <select
+                  id={field}
+                  name={field}
+                  value={hotelInfo[field]}
+                  onChange={handleInputChange}
+                  className="form-control"
+                >
+                  <option value="">Chọn loại</option>
+                  {types.map((type) => (
+                    <option key={type.id} value={type.id}>
+                      {type.name}
+                    </option>
+                  ))}
+                </select>
+              ) : field === "location" ? (
+                <select
+                  className="form-control"
+                  value={hotelInfo.location}
+                  onChange={(e) =>
+                    handleInputChange({
+                      target: { name: "location", value: e.target.value },
+                    })
+                  }
+                >
+                  <option value="HoChiMinh">Hồ Chí Minh</option>
+                  <option value="HaNoi">Hà Nội</option>
+                  <option value="HaiPhong">Hải Phòng</option>
+                  <option value="Hue">Huế</option>
+                  <option value="DaNang">Đà Nẵng</option>
+                  <option value="NhaTrang">Nha Trang</option>
+                  <option value="BinhThuan">Bình Thuận</option>
+                  <option value="HoiAn">Hội An</option>
+                  <option value="CaoBang">Cao Bằng</option>
+                  <option value="QuocPhuc">Quốc Phúc</option>
+                  <option value="HaLong">Hạ Long</option>
+                </select>
+              ) : (
+                <input
+                  type="text"
+                  id={field}
+                  name={field}
+                  value={hotelInfo[field]}
+                  onChange={handleInputChange}
+                  className="form-control"
+                />
+              )}
+            </div>
+          );
+        })}
         <button type="submit" className="btn btn-primary">
           Thêm khách sạn
         </button>

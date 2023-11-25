@@ -1,14 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useNavigate  } from 'react-router-dom';
-import { faMagnifyingGlass, faBed, faChild, faPerson } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import "../css/formBooking.css"
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import {
+  faMagnifyingGlass,
+  faBed,
+  faChild,
+  faPerson,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import "../css/formBooking.css";
 
 const FormBooking = () => {
   const navigate = useNavigate();
-  const [location, setLocation] = useState('HoChiMinh');
-  const [checkInDate, setCheckInDate] = useState('');
+  const [location, setLocation] = useState("HoChiMinh");
+  const [checkInDate, setCheckInDate] = useState("");
   const [numNights, setNumNights] = useState(1);
   const [numAdults, setNumAdults] = useState(1);
   const [numChildren, setNumChildren] = useState(0);
@@ -37,37 +41,22 @@ const FormBooking = () => {
   };
 
   useEffect(() => {
-    // Lấy ngày hiện tại và đặt giá trị cho checkInDate
-    const today = new Date().toISOString().split('T')[0];
+    const today = new Date().toISOString().split("T")[0];
     setCheckInDate(today);
   }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:4000/hotels', {
-        location,
-        checkInDate,
-        numNights,
-        numAdults,
-        numChildren,
-        numRooms,
-      });
+      sessionStorage.setItem("checkInDate", checkInDate);
+      sessionStorage.setItem("numNights", numNights);
+      sessionStorage.setItem("numRooms", numRooms);
 
-      // Store the list of hotels in the component's state
-      const hotels = response.data;
-
-      // Save checkInDate and numNights to sessionStorage
-      sessionStorage.setItem('checkInDate', checkInDate);
-      sessionStorage.setItem('numNights', numNights);
-
-      // Navigate to the ListHotel component with the list of hotels
-      navigate('/danh-sach-khach-san', { state: { hotels } });
+      navigate("/danh-sach-khach-san", { state: { location, numRooms } });
     } catch (error) {
-      console.error('Error:', error);
+      console.error("Error:", error);
     }
   };
-
   return (
     <form onSubmit={handleSubmit} className="container container-booking mt-5">
       <div className="form-group">
@@ -90,7 +79,7 @@ const FormBooking = () => {
           <option value="HaLong">Hạ Long</option>
         </select>
       </div>
-      <div className='row'>
+      <div className="row">
         <div className="col-sm-6 form-group">
           <label>Ngày nhận phòng:</label>
           <input
@@ -118,7 +107,11 @@ const FormBooking = () => {
       <div className="row">
         <div className=" col-sm-6 info">
           <label>Khách và phòng: </label>
-          <div className="form-group form_info" tabIndex="0" onClick={handleOptionGroupToggle}>
+          <div
+            className="form-group form_info"
+            tabIndex="0"
+            onClick={handleOptionGroupToggle}
+          >
             <span> Số người lớn: {numAdults}, </span>
             <span>Số trẻ em: {numChildren}, </span>
             <span>Số lượng phòng: {numRooms}</span>
@@ -126,36 +119,91 @@ const FormBooking = () => {
           {isOptionGroupVisible && (
             <div className="option_group">
               <div className="form-group form-group-info">
-                <label><FontAwesomeIcon icon={faPerson} style={{ color: "#0d5de7", }} /> Người lớn</label>
-                <div className="input-group input-group-booking">
-                  <button className="btn btn-primary btn_minus" type="button" onClick={() => handleAdultsChange(-1)}>-</button>
-                  <input type="text" className="form-control" value={numAdults} readOnly />
-                  <button className="btn btn-primary btn_plus" type="button" onClick={() => handleAdultsChange(1)}>+</button>
+                <label>
+                  <FontAwesomeIcon
+                    icon={faPerson}
+                    style={{ color: "#0d5de7" }}
+                  />{" "}
+                  Người lớn
+                </label>
+                <div style={{ marginTop: 10 }}>
+                  <button
+                    type="button"
+                    className="btn btn-outline-primary"
+                    onClick={() => handleAdultsChange(-1)}
+                  >
+                    -
+                  </button>
+                  <span style={{ margin: "0 10px" }}>{numAdults}</span>
+                  <button
+                    type="button"
+                    className="btn btn-outline-primary"
+                    onClick={() => handleAdultsChange(1)}
+                  >
+                    +
+                  </button>
                 </div>
               </div>
 
               <div className="form-group form-group-info">
-                <label><FontAwesomeIcon icon={faChild} style={{ color: "#0d5de7", }} /> Trẻ em</label>
-                <div className="input-group input-group-booking">
-                  <button className="btn btn-primary btn_minus" type="button" onClick={() => handleChildrenChange(-1)}>-</button>
-                  <input type="text" className="form-control" value={numChildren} readOnly />
-                  <button className="btn btn-primary btn_plus" type="button" onClick={() => handleChildrenChange(1)}>+</button>
+                <label>
+                  <FontAwesomeIcon
+                    icon={faChild}
+                    style={{ color: "#0d5de7" }}
+                  />{" "}
+                  Trẻ em
+                </label>
+                <div style={{ marginTop: 10 }}>
+                  <button
+                    type="button"
+                    className="btn btn-outline-primary"
+                    onClick={() => handleChildrenChange(-1)}
+                  >
+                    -
+                  </button>
+                  <span style={{ margin: "0 10px" }}>{numChildren}</span>
+                  <button
+                    type="button"
+                    className="btn btn-outline-primary"
+                    onClick={() => handleChildrenChange(1)}
+                  >
+                    +
+                  </button>
                 </div>
               </div>
 
               <div className="form-group form-group-info">
-                <label><FontAwesomeIcon icon={faBed} style={{ color: "#0d5de7", }} /> Số phòng</label>
-                <div className="input-group input-group-booking">
-                  <button className="btn btn-primary btn_minus" type="button" onClick={() => handleRoomsChange(-1)}>-</button>
-                  <input type="text" className="form-control" value={numRooms} readOnly />
-                  <button className="btn btn-primary btn_plus" type="button" onClick={() => handleRoomsChange(1)}>+</button>
+                <label>
+                  <FontAwesomeIcon icon={faBed} style={{ color: "#0d5de7" }} />{" "}
+                  Số phòng
+                </label>
+                <div style={{ marginTop: 10 }}>
+                  <button
+                    type="button"
+                    className="btn btn-outline-primary"
+                    onClick={() => handleRoomsChange(-1)}
+                  >
+                    -
+                  </button>
+                  <span style={{ margin: "0 10px" }}>{numRooms}</span>
+                  <button
+                    type="button"
+                    className="btn btn-outline-primary"
+                    onClick={() => handleRoomsChange(1)}
+                  >
+                    +
+                  </button>
                 </div>
               </div>
             </div>
           )}
         </div>
         <div className="col-sm-6 form_group">
-          <button style={{ marginTop: 43 }} type="submit" className="btn btn-primary">
+          <button
+            style={{ marginTop: 43 }}
+            type="submit"
+            className="btn btn-primary"
+          >
             <FontAwesomeIcon icon={faMagnifyingGlass} /> Tìm khách sạn
           </button>
         </div>
