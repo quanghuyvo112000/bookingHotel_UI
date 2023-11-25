@@ -27,20 +27,17 @@ const BillManage = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const billsPerPage = 6;
 
-  const userId = "b809cb62-9bfe-459a-964e-de7750af9e71";
   const token = sessionStorage.getItem("jwtToken");
 
   useEffect(() => {
     const fetchBills = async () => {
       try {
-        const response = await axios.get(
-          `https://localhost:7211/getAll?id=${userId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        debugger;
+        const response = await axios.get(`https://localhost:7211/`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setBills(response.data.data);
       } catch (error) {
         console.error("Error fetching bills:", error);
@@ -48,7 +45,7 @@ const BillManage = () => {
     };
 
     fetchBills();
-  }, [userId, token]);
+  }, [token]);
 
   const typeIdOptions = {
     TR01: "Standard",
