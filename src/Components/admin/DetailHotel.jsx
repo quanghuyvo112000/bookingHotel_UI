@@ -5,7 +5,7 @@ import axios from "axios";
 import UpdateHotel from "./UpdateHotel";
 import DeleteHotel from "./DeleteHotel";
 import AddRoom from "./AddRoom";
-// import GetRoom from "./getRoom";
+import GetRoom from "./getRoom";
 
 import "./style/main.css";
 
@@ -72,7 +72,7 @@ const DetailHotel = () => {
 
   return (
     <div style={{ marginBottom: 100 }} className="container mt-5">
-      <h4 style={{ fontSize: 18 }}>
+      <h4 style={{ fontSize: 20 }}>
         Chi tiết khách sạn: <span>{hotelDetail.name}</span>
       </h4>
       <div>
@@ -100,12 +100,16 @@ const DetailHotel = () => {
                 marginBottom: 15,
               }}
             >
-              <p>Địa điểm: {cityOptions[hotelDetail.location]}</p>
+              <p style={{ fontWeight: 500 }}>
+                Khu vực: {cityOptions[hotelDetail.location]} -{" "}
+                <span> {hotelDetail.address}</span>
+              </p>
               <p className="card-text">
                 {" "}
-                Loại khách sạn: {typeIdOptions[hotelDetail.typeId]}
+                Mô hình: {typeIdOptions[hotelDetail.typeId]}
               </p>
               <p className="card-text">Tiện tích: {hotelDetail.services}</p>
+              <p className="card-text">{hotelDetail.payType}</p>
             </div>
 
             {/* Button to show the popup */}
@@ -154,7 +158,11 @@ const DetailHotel = () => {
             )}
           </div>
           <div className="col-12 col-sm-12 col-md-12 col-lg-12">
-            {/* <GetRoom hotelId={hotelId} /> */}
+            <h4 style={{ fontSize: 18, marginTop: 50 }}>
+              {" "}
+              Những phòng còn trống tại {hotelDetail.name}
+            </h4>
+            <GetRoom hotelId={hotelId} />
           </div>
         </div>
       </div>

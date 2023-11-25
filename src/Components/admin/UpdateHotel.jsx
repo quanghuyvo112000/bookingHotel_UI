@@ -7,6 +7,7 @@ const UpdateHotel = ({ onClose, hotelId, hotelDetail }) => {
   const [updatedHotelInfo, setUpdatedHotelInfo] = useState({
     name: hotelDetail.name,
     location: hotelDetail.location,
+    address: hotelDetail.address,
     typeId: hotelDetail.typeId,
     payType: hotelDetail.payType,
     image: hotelDetail.image,
@@ -48,7 +49,7 @@ const UpdateHotel = ({ onClose, hotelId, hotelDetail }) => {
 
   return (
     <div
-      className="popup popup-updateHotel"
+      className="popup-updateHotel"
       style={{
         marginTop: 15,
         border: "1px solid #d2d2d2",
@@ -75,7 +76,7 @@ const UpdateHotel = ({ onClose, hotelId, hotelDetail }) => {
           </div>
           <div className="mb-3">
             <label htmlFor="location" className="form-label">
-              Địa điểm
+              Khu vực
             </label>
             <input
               type="text"
@@ -83,6 +84,20 @@ const UpdateHotel = ({ onClose, hotelId, hotelDetail }) => {
               id="location"
               name="location"
               value={updatedHotelInfo.location}
+              onChange={handleInputChange}
+              readOnly
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="location" className="form-label">
+              Địa chỉ
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="address"
+              name="address"
+              value={updatedHotelInfo.address}
               onChange={handleInputChange}
             />
           </div>
@@ -97,6 +112,7 @@ const UpdateHotel = ({ onClose, hotelId, hotelDetail }) => {
               name="typeId"
               value={updatedHotelInfo.typeId}
               onChange={handleInputChange}
+              readOnly
             />
           </div>
           <div className="mb-3">

@@ -43,6 +43,10 @@ const PassChange = () => {
           }
 
           // Gọi API để thay đổi mật khẩu và thêm xác thực token
+          debugger;
+          console.log(username);
+          console.log("currentPassword", currentPassword);
+          console.log("newPassword", newPassword);
           const response = await axios.put(
             "https://localhost:7211/Account/changePassword",
             {

@@ -101,12 +101,15 @@ const NewRoom = () => {
               <div className="card-body">
                 <h5 className="card-title">{hotel.name}</h5>
                 <p className="card-text">
-                  Địa điểm: {cityOptions[hotel.location]}
+                  Khu vực: {cityOptions[hotel.location]}
                 </p>
+                <p className="card-text">{hotel.address}</p>
                 <p className="card-text">
                   {" "}
-                  Loại khách sạn: {typeIdOptions[hotel.typeId]}
+                  Mô hình: {typeIdOptions[hotel.typeId]}
                 </p>
+                <p className="card-text">{hotel.payType}</p>
+                <p className="card-text">Tiện ích: {hotel.services}</p>
                 <button
                   type="button"
                   className="btn btn-primary"

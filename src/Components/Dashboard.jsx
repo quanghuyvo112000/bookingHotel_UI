@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import HotelManage from "./HotelManage";
-import StatisticsManage from "./StatisticsManage";
+import PassChange from "../Containers/PassChange";
 import BillManage from "./BillManage";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -40,7 +40,7 @@ const Dashboard = () => {
       case "hotel-info":
         return <HotelManage />;
       case "statistic-info":
-        return <StatisticsManage />;
+        return <PassChange />;
       case "bill-info":
         return <BillManage />;
       default:
@@ -84,21 +84,21 @@ const Dashboard = () => {
                 <li>
                   <button
                     className={`btn btn_navigation-menu ${
-                      activeTab === "statistic-info" ? "active" : ""
-                    }`}
-                    onClick={() => setActiveTab("statistic-info")}
-                  >
-                    Quản lý thống kê
-                  </button>
-                </li>
-                <li>
-                  <button
-                    className={`btn btn_navigation-menu ${
                       activeTab === "bill-info" ? "active" : ""
                     }`}
                     onClick={() => setActiveTab("bill-info")}
                   >
                     Quản lý hóa đơn
+                  </button>
+                </li>
+                <li>
+                  <button
+                    className={`btn btn_navigation-menu ${
+                      activeTab === "statistic-info" ? "active" : ""
+                    }`}
+                    onClick={() => setActiveTab("statistic-info")}
+                  >
+                    Đổi mật khẩu
                   </button>
                 </li>
               </ul>
