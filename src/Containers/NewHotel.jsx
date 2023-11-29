@@ -121,15 +121,9 @@ const NewHotel = () => {
                 >
                   <option value="HoChiMinh">Hồ Chí Minh</option>
                   <option value="HaNoi">Hà Nội</option>
-                  <option value="HaiPhong">Hải Phòng</option>
                   <option value="Hue">Huế</option>
                   <option value="DaNang">Đà Nẵng</option>
                   <option value="NhaTrang">Nha Trang</option>
-                  <option value="BinhThuan">Bình Thuận</option>
-                  <option value="HoiAn">Hội An</option>
-                  <option value="CaoBang">Cao Bằng</option>
-                  <option value="QuocPhuc">Quốc Phúc</option>
-                  <option value="HaLong">Hạ Long</option>
                 </select>
               ) : (
                 <input

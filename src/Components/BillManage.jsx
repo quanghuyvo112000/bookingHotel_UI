@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -29,23 +29,23 @@ const BillManage = () => {
 
   const token = sessionStorage.getItem("jwtToken");
 
-  useEffect(() => {
-    const fetchBills = async () => {
-      try {
-        debugger;
-        const response = await axios.get(`https://localhost:7211/`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setBills(response.data.data);
-      } catch (error) {
-        console.error("Error fetching bills:", error);
-      }
-    };
-
-    fetchBills();
+  const fetchBills = useCallback(async () => {
+    try {
+      debugger;
+      const response = await axios.get(`https://localhost:7211/`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setBills(response.data.data);
+    } catch (error) {
+      console.error("Error fetching bills:", error);
+    }
   }, [token]);
+
+  useEffect(() => {
+    fetchBills();
+  }, [fetchBills]);
 
   const typeIdOptions = {
     TR01: "Standard",
@@ -87,8 +87,27 @@ const BillManage = () => {
 
       if (response.data.state) {
         setIsBookingSuccess(true);
-        const updatedBills = bills.filter((bill) => bill.id !== billId);
-        setBills(updatedBills);
+
+        // Tính toán vị trí của hóa đơn cần xóa trong danh sách hiện tại
+        const indexOfBillToDelete = bills.findIndex(
+          (bill) => bill.id === billId
+        );
+
+        // Nếu hóa đơn cần xóa nằm trên trang hiện tại
+        if (
+          indexOfBillToDelete >= currentPage * billsPerPage &&
+          indexOfBillToDelete < (currentPage + 1) * billsPerPage
+        ) {
+          const updatedBills = [...bills];
+          updatedBills.splice(
+            indexOfBillToDelete - currentPage * billsPerPage,
+            1
+          );
+          setBills(updatedBills);
+        } else {
+          // Nếu hóa đơn cần xóa không nằm trên trang hiện tại, chỉ cần fetch lại dữ liệu
+          fetchBills();
+        }
       } else {
         console.error("Lỗi xóa hóa đơn:", response.data.message);
       }
@@ -111,6 +130,11 @@ const BillManage = () => {
 
       if (response.data.state) {
         setIsFinishSuccess(true);
+        // Cập nhật danh sách hóa đơn sau khi hoàn thành đặt phòng
+        const updatedBills = bills.map((bill) =>
+          bill.id === billId ? { ...bill, status: true } : bill
+        );
+        setBills(updatedBills);
       } else {
         console.error("Lỗi hoàn thành đơn đặt phòng:", response.data.message);
       }
@@ -309,35 +333,11 @@ const BillManage = () => {
                               }}
                               icon={faTrash}
                             />
-                            <p>Hủy phòng thành công!</p>
+                            <p>Xóa hóa đơn thành công!</p>
                             <button
                               type="button"
                               className="btn btn-secondary"
                               onClick={handleClosePopup}
-                            >
-                              Đóng
-                            </button>
-                          </div>
-                        )}
-                        {isFinishSuccess && (
-                          <div className="popup">
-                            <FontAwesomeIcon
-                              style={{
-                                fontSize: 50,
-                                color: "green",
-                                textAlign: "center",
-                                marginBottom: 15,
-                              }}
-                              icon={faCheck}
-                            />
-                            <p>Hoàn thành xác nhận hóa đơn!</p>
-                            <button
-                              type="button"
-                              className="btn btn-secondary"
-                              onClick={() => {
-                                setIsFinishSuccess(false);
-                                handleClosePopup();
-                              }}
                             >
                               Đóng
                             </button>
@@ -564,6 +564,30 @@ const BillManage = () => {
                   </div>
                 ))}
             </div>
+            {isFinishSuccess && (
+              <div className="popup">
+                <FontAwesomeIcon
+                  style={{
+                    fontSize: 50,
+                    color: "green",
+                    textAlign: "center",
+                    marginBottom: 15,
+                  }}
+                  icon={faCheck}
+                />
+                <p>Hoàn thành xác nhận hóa đơn!</p>
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={() => {
+                    setIsFinishSuccess(false);
+                    handleClosePopup();
+                  }}
+                >
+                  Đóng
+                </button>
+              </div>
+            )}
             {/* Pagination */}
             <ReactPaginate
               previousLabel={"<"}
