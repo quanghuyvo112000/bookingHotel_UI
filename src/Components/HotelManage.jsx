@@ -18,7 +18,7 @@ const HotelManage = () => {
           <Tab
             className={`custom-tab ${selectedTab === 0 ? "active-tab" : ""}`}
           >
-            Danh sách phòng
+            Danh sách khách sạn
           </Tab>
           <Tab
             className={`custom-tab ${selectedTab === 1 ? "active-tab" : ""}`}

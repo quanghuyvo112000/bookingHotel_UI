@@ -30,7 +30,7 @@ const DeleteRoom = ({ onClose, roomId }) => {
   };
 
   return (
-    <div className="popup deleteHotel-popup">
+    <div className="deleteHotel-popup">
       <div className="popup-content  popup-content-deleteHotel">
         <h4 style={{ fontSize: 18 }}>Xác nhận xóa thông tin phòng</h4>
         <p>Bạn có chắc chắn muốn xóa thông tin của phòng?</p>
